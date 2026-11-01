@@ -1,0 +1,14 @@
+﻿{
+    "name":  "politicsqa",
+    "private":  true,
+    "version":  "1.0.0",
+    "description":  "政治课程问答小系统：Go 本地启动器 + 原生浏览器前端 + DeepSeek API。",
+    "scripts":  {
+                    "build":  "go build -o politicsqa.exe .",
+                    "test":  "node test/unit.mjs",
+                    "test:dom":  "node test/dom-e2e.mjs",
+                    "test:integration":  "node test/integration.mjs",
+                    "test:protocol":  "node test/protocol.mjs"
+                },
+    "type":  "module"
+}

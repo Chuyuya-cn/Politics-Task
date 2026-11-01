@@ -1,0 +1,49 @@
+# Caddy 配置 —— 自动申请并续期 Let's Encrypt 证书
+#
+# 前提：
+#   1. 域名的 A 记录已指向这台服务器（阿里云硅谷节点）；
+#   2. 服务器 80 和 443 端口已放行（阿里云安全组 + 系统防火墙）；
+#   3. Caddy 已安装：https://caddyserver.com/docs/install
+#
+# 使用：
+#   sudo cp Caddyfile /etc/caddy/Caddyfile
+#   sudo caddy validate --config /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+
+# 把 zhengwen.example.com 换成你自己的域名
+zhengwen.example.com {
+	root * /var/www/zhengwen
+	encode zstd gzip
+
+	# 静态站点没有服务端逻辑，但仍要明确安全头
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		# 允许页面直接调用 api.deepseek.com
+		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.deepseek.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+		-Server
+	}
+
+	# 提示词与内容清单需要每次都回源，避免换文件后仍看到旧内容
+	@dynamic path /content.json /prompts/*
+	header @dynamic Cache-Control "no-cache"
+
+	# 静态资源长缓存，文件名不变时减少流量
+	@static path /styles.css /config.js /js/* /assets/*
+	header @static Cache-Control "public, max-age=3600"
+
+	# Service Worker 不能被长缓存
+	@sw path /sw.js
+	header @sw Cache-Control "no-cache"
+
+	# SPA 式回退：任何未知路径回到首页
+	try_files {path} /index.html
+	file_server
+
+	log {
+		output file /var/log/caddy/zhengwen.log
+		format console
+	}
+}

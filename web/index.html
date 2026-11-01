@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#09121a">
+  <meta name="description" content="政问：一个面向政治类课程的浏览器问答小系统。">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="政问">
+  <meta name="theme-color" content="#09121a">
+  <title>政问 · 政治课程学习助手</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <img id="bg-image" class="ambient__image" alt="">
+    <div class="ambient__scrim"></div>
+    <div class="ambient__grain"></div>
+  </div>
+
+  <div id="boot-error" class="boot-error" hidden>
+    <div class="boot-error__card glass">
+      <p class="eyebrow">启动提示</p>
+      <h1>请通过启动器打开</h1>
+      <p id="boot-error-message">此页面需要通过政问本地启动器访问，直接双击 index.html 无法读取提示词与底图。</p>
+    </div>
+  </div>
+
+  <section id="init-screen" class="screen init-screen" aria-labelledby="init-title">
+    <div class="init-wrap">
+      <div class="brand-lockup brand-lockup--init">
+        <div class="brand-seal" aria-hidden="true">政</div>
+        <div>
+          <p class="brand-kicker">POLITICS · STUDY · DIALOGUE</p>
+          <p class="brand-name">政问</p>
+        </div>
+      </div>
+
+      <div class="init-card glass glass--strong">
+        <p class="eyebrow">初始化 / INITIALISE</p>
+        <h1 id="init-title" class="init-title">让问题回到<br><em>证据与理解</em>。</h1>
+        <p class="init-lead">输入你的 DeepSeek API Key，开始一场有来源、有分寸的政治课程问答。</p>
+
+        <form id="key-form" class="key-form" novalidate>
+          <label class="field-label" for="api-key">DeepSeek API Key</label>
+          <div class="key-field">
+            <input id="api-key" name="api-key" type="password" placeholder="sk-..." autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="key-help key-error" required>
+            <button id="toggle-key" class="icon-button key-reveal" type="button" aria-label="显示 API Key" title="显示 / 隐藏">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/></svg>
+            </button>
+          </div>
+          <p id="key-help" class="field-help">Key 仅保存在当前页面内存，经本机启动器转发给 DeepSeek；不写入文件，也不会发送给其他第三方。</p>
+          <p id="key-error" class="field-error" role="alert" hidden></p>
+
+          <div id="net-help" class="net-help" role="alert" hidden>
+            <p class="net-help__title" id="net-help-title">当前浏览器阻止了联网请求</p>
+            <p class="net-help__body" id="net-help-body"></p>
+            <dl class="net-help__diag" id="net-help-diag"></dl>
+            <div class="net-help__actions">
+              <button id="net-help-retry" class="secondary-button" type="button">重试</button>
+              <button id="net-help-bypass" class="secondary-button" type="button">先进入界面</button>
+            </div>
+            <p class="net-help__hint">「先进入界面」不会连接 AI，只用于查看布局；提问仍会失败。</p>
+          </div>
+
+          <button id="enter-button" class="primary-button" type="submit">
+            <span class="button-label">进入问答</span>
+            <span class="button-spinner" aria-hidden="true"></span>
+            <svg class="button-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+
+        <div class="init-meta">
+          <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener noreferrer">获取 API Key <span aria-hidden="true">↗</span></a>
+          <span class="meta-divider" aria-hidden="true"></span>
+          <span>模型 V4.1 Flash · 低思考</span>
+        </div>
+      </div>
+
+      <p class="init-footnote">AI 生成内容可能有误。重要结论请核对原始文件与权威来源。</p>
+    </div>
+  </section>
+
+  <section id="app-screen" class="screen app-screen" aria-labelledby="app-title" hidden>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-seal" aria-hidden="true">政</div>
+        <div>
+          <p class="brand-kicker">POLITICS · STUDY · DIALOGUE</p>
+          <h1 id="app-title" class="brand-name">政问</h1>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <span class="status-chip" title="当前模型">
+          <span class="status-dot"></span>
+          V4.1 Flash <span class="status-sep">/</span> 低思考
+        </span>
+        <button id="new-chat" class="text-button" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          新对话
+        </button>
+        <button id="open-settings" class="icon-button" type="button" aria-label="打开设置" aria-haspopup="dialog" aria-controls="settings-panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.7 2.7-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-3.8v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L4.6 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3.3v-3.8h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9L4.6 7l2.7-2.7.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5v-.2h3.8v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.2v3.8h-.2a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="conversation" aria-label="问答区">
+      <div id="answer-area" class="answer-area" aria-live="polite">
+        <div id="answer-list" class="answer-list">
+          <div id="welcome" class="welcome">
+            <p class="welcome__eyebrow">研读 · 辨析 · 求证</p>
+            <h2 class="welcome__title">从概念出发，<br>抵达更完整的理解。</h2>
+            <p class="welcome__text">你可以问制度、政策、历史与理论。开启联网后，回答会优先引用可核查的公开资料。</p>
+            <div class="suggestions" aria-label="问题示例">
+              <button class="suggestion" type="button" data-question="如何理解人民代表大会制度在我国政治制度体系中的地位？">人大制度的地位</button>
+              <button class="suggestion" type="button" data-question="全过程人民民主包含哪些主要环节，如何从制度上理解？">全过程人民民主</button>
+              <button class="suggestion" type="button" data-question="请区分国家、政府、政党这三个政治学概念。">辨析三个概念</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="composer-wrap" class="composer-wrap">
+        <form id="ask-form" class="composer glass glass--composer">
+          <div class="composer__topline">
+            <label class="sr-only" for="question">请输入你的问题</label>
+            <textarea id="question" name="question" rows="1" maxlength="2000" placeholder="输入你的政治课程问题……" autocomplete="off"></textarea>
+          </div>
+          <div class="composer__toolbar">
+            <div class="composer__tools">
+              <button id="search-toggle" class="tool-pill is-active" type="button" aria-pressed="true" title="联网搜索公开资料（按次计费）">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.2"/><path d="m16 16 4.2 4.2M4 4l16 16"/></svg>
+                <span>联网</span>
+              </button>
+              <button id="mode-button" class="tool-pill" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="mode-menu">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5Z"/></svg>
+                <span id="mode-label">课程讲解</span>
+                <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+              </button>
+              <div id="mode-menu" class="mode-menu glass" role="listbox" aria-label="答题模式" hidden></div>
+            </div>
+            <div class="composer__submit">
+              <span id="char-count" class="char-count" aria-hidden="true">0 / 2000</span>
+              <button id="send-button" class="send-button" type="submit" aria-label="发送问题" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+              </button>
+              <button id="stop-button" class="stop-button" type="button" aria-label="停止生成" hidden>
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+        <p class="composer-note">AI 生成内容仅供参考，请核对权威原文 · <button id="change-key" class="inline-link" type="button">更换 Key</button></p>
+      </div>
+    </main>
+  </section>
+
+  <div id="settings-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="settings-panel" class="settings-panel glass glass--strong" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+    <div class="settings-head">
+      <div>
+        <p class="eyebrow">SYSTEM</p>
+        <h2 id="settings-title">设置</h2>
+      </div>
+      <button id="close-settings" class="icon-button" type="button" aria-label="关闭设置">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-label-row">
+        <label class="field-label" for="background-select">背景底图</label>
+        <button id="refresh-content" class="inline-link" type="button">刷新内容</button>
+      </div>
+      <select id="background-select" class="select-control"></select>
+      <p class="field-help">图片来自程序旁的 backgrounds/ 文件夹，添加或替换后刷新内容即可。</p>
+    </div>
+
+    <div class="settings-group">
+      <label class="field-label" for="prompt-select">答题模式</label>
+      <select id="prompt-select" class="select-control"></select>
+      <p class="field-help">提示词来自 prompts/ 文件夹。切换后会应用于下一次提问。</p>
+      <p id="mode-description" class="mode-description"></p>
+    </div>
+
+    <div class="settings-group">
+      <p class="field-label">当前连接</p>
+      <dl class="connection-list">
+        <div><dt>模型</dt><dd>deepseek-flash</dd></div>
+        <div><dt>思考强度</dt><dd>low</dd></div>
+        <div><dt>在线搜索</dt><dd id="search-status">默认开启</dd></div>
+        <div><dt>页面版本</dt><dd id="build-version">—</dd></div>
+      </dl>
+      <button id="hard-refresh" class="secondary-button refresh-cache" type="button">清除缓存并重新加载</button>
+      <p class="field-help">如果页面行为异常或提示词不是最新的，点这个按钮。</p>
+    </div>
+
+    <div class="settings-foot">
+      <button id="back-to-init" class="secondary-button" type="button">重新输入 API Key</button>
+      <p class="field-help">切换 Key 会清空当前对话，并返回初始化页面。</p>
+    </div>
+  </aside>
+
+  <div id="toast" class="toast glass" role="status" aria-live="polite" hidden>
+    <span id="toast-message"></span>
+    <button id="toast-action" class="toast-action" type="button" hidden></button>
+  </div>
+
+  <template id="answer-template">
+    <article class="answer-card glass glass--answer">
+      <header class="answer-head">
+        <div class="answer-meta">
+          <span class="answer-tag">政问</span>
+          <span class="answer-time"></span>
+        </div>
+        <div class="answer-actions">
+          <button class="answer-action copy-answer" type="button" title="复制回答">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2"/></svg>
+            <span>复制</span>
+          </button>
+        </div>
+      </header>
+      <div class="question-block">
+        <span class="question-label">问</span>
+        <p class="question-text"></p>
+      </div>
+      <div class="answer-content">
+        <div class="progress-line" hidden>
+          <span class="progress-status"></span>
+          <span class="progress-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+        <div class="answer-markdown"></div>
+        <div class="answer-error" hidden>
+          <p class="answer-error__message"></p>
+          <button class="answer-retry secondary-button" type="button">重试这次提问</button>
+        </div>
+      </div>
+      <footer class="answer-foot">
+        <div class="sources" hidden>
+          <div class="sources-head">
+            <span>检索来源</span>
+            <span class="sources-note">公开网页摘要</span>
+          </div>
+          <ol class="source-list"></ol>
+        </div>
+        <div class="answer-note">AI 生成，可能存在偏差。请优先核对原始文件。</div>
+      </footer>
+    </article>
+  </template>
+
+  <script src="js/boot.js"></script>
+  <script src="js/app.js" type="module"></script>
+</body>
+</html>

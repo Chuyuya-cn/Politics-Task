@@ -1,0 +1,57 @@
+# ===== 凭据与密钥（最高优先级）=====
+.git-credentials
+.gitcredentials
+.netrc
+_netrc
+
+# 环境变量
+.env
+.env.*
+!.env.example
+
+# 密钥与证书
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# ===== 构建缓存 =====
+.gocache/
+.gomodcache/
+.npm-cache/
+.gotmp/
+.gopath/
+.tools/
+
+# ===== Go 构建产物 =====
+politicsqa.exe
+politicsqa.exe~
+
+# ===== 打包/发布产物（整个目录都不进版本库）=====
+release/
+release-single/
+source-package/
+dist/
+web/政问-单文件版.html
+
+# ===== 大文件与截图 =====
+screenshots/
+
+# ===== 运行期状态 =====
+*.log
+*.tmp
+*.bak
+qr-phone.png
+
+# ===== 编辑器与系统 =====
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+~$*
+
+# ===== 测试运行时产物 =====
+.chrome*/
+test/.chrome*/

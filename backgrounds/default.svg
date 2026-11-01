@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="深色抽象建筑与光晕背景">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071019"/>
+      <stop offset="0.46" stop-color="#0d1a23"/>
+      <stop offset="1" stop-color="#1c2526"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.74" cy="0.38" r="0.46">
+      <stop offset="0" stop-color="#d8b778" stop-opacity="0.42"/>
+      <stop offset="0.34" stop-color="#9f7e4d" stop-opacity="0.17"/>
+      <stop offset="1" stop-color="#2a2117" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9bb1ad" stop-opacity="0"/>
+      <stop offset="0.56" stop-color="#9bb1ad" stop-opacity="0.075"/>
+      <stop offset="1" stop-color="#071019" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="column" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#050b10"/>
+      <stop offset="0.5" stop-color="#0c151b"/>
+      <stop offset="1" stop-color="#03080c"/>
+    </linearGradient>
+    <linearGradient id="goldLine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d5b070" stop-opacity="0"/>
+      <stop offset="0.3" stop-color="#d5b070" stop-opacity="0.55"/>
+      <stop offset="0.72" stop-color="#ead6a9" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#d5b070" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#02060a" stop-opacity="0.46"/>
+      <stop offset="0.52" stop-color="#02060a" stop-opacity="0"/>
+      <stop offset="1" stop-color="#02060a" stop-opacity="0.74"/>
+    </linearGradient>
+    <filter id="blur28" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="blur8" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.055"/>
+      </feComponentTransfer>
+    </filter>
+    <pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(37)">
+      <line x1="0" y1="0" x2="0" y2="9" stroke="#d9c79d" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#base)"/>
+  <rect x="640" y="-260" width="1400" height="1280" fill="url(#sun)"/>
+
+  <!-- Distant architectural silhouette -->
+  <g opacity="0.8">
+    <path d="M1018 1080V466c0-108 80-190 184-190s184 82 184 190v614z" fill="#0b141a"/>
+    <path d="M1058 1080V476c0-83 62-147 144-147s144 64 144 147v604z" fill="#101b22"/>
+    <path d="M1330 1080V522c0-88 64-158 154-158s154 70 154 158v558z" fill="#081116"/>
+    <path d="M1368 1080V532c0-67 49-120 116-120s116 53 116 120v548z" fill="#0d171d"/>
+    <path d="M849 1080V590c0-70 53-126 120-126s120 56 120 126v490z" fill="#071015"/>
+    <path d="M885 1080V600c0-49 37-87 84-87s84 38 84 87v480z" fill="#0c171d"/>
+    <g fill="#03090d" opacity="0.86">
+      <rect x="941" y="616" width="80" height="464" rx="38"/>
+      <rect x="1509" y="572" width="80" height="508" rx="38"/>
+      <rect x="1750" y="640" width="92" height="440" rx="44"/>
+    </g>
+    <g fill="url(#goldLine)" opacity="0.7">
+      <rect x="927" y="607" width="108" height="3" rx="1.5"/>
+      <rect x="1495" y="564" width="108" height="3" rx="1.5"/>
+      <rect x="1737" y="632" width="118" height="3" rx="1.5"/>
+    </g>
+  </g>
+
+  <!-- Monumental arch and fine concentric lines -->
+  <g fill="none" stroke="#d7bc86">
+    <path d="M807 1080V574c0-172 132-306 306-306s306 134 306 306v506" stroke-opacity="0.16" stroke-width="2"/>
+    <path d="M831 1080V578c0-159 126-288 282-288s282 129 282 288v502" stroke-opacity="0.08" stroke-width="1.2"/>
+    <circle cx="1424" cy="412" r="361" stroke-opacity="0.07" stroke-width="1"/>
+    <circle cx="1424" cy="412" r="445" stroke-opacity="0.045" stroke-width="1"/>
+    <path d="M0 846c272-74 470-74 742 2 231 64 436 76 655 17 196-52 355-44 523 17" stroke="#d7bc86" stroke-opacity="0.1" stroke-width="1.4"/>
+    <path d="M0 902c310-60 530-43 768 23 210 59 407 65 617 11 197-50 354-37 535 27" stroke="#b8ccc5" stroke-opacity="0.05" stroke-width="1"/>
+  </g>
+
+  <!-- Layered landscape / atmospheric bands -->
+  <path d="M0 874c188-92 383-102 589-33 275 92 477 97 699 18 162-58 294-57 632 41v180H0z" fill="#071016" opacity="0.82"/>
+  <path d="M0 935c246-76 430-47 618 19 245 86 451 69 656 3 172-56 344-42 646 37v86H0z" fill="#050c11" opacity="0.88"/>
+  <rect y="500" width="1920" height="580" fill="url(#mist)"/>
+  <rect width="1920" height="1080" fill="url(#hatch)"/>
+
+  <!-- Soft light veils -->
+  <g filter="url(#blur28)" opacity="0.5">
+    <ellipse cx="1448" cy="332" rx="190" ry="118" fill="#d1a664" opacity="0.16"/>
+    <ellipse cx="690" cy="810" rx="360" ry="120" fill="#5c7e7a" opacity="0.08"/>
+  </g>
+  <g filter="url(#blur8)" opacity="0.45">
+    <circle cx="1052" cy="254" r="2.4" fill="#f0d6a2"/>
+    <circle cx="1163" cy="173" r="1.6" fill="#e8ca8e"/>
+    <circle cx="1608" cy="238" r="2" fill="#f0d6a2"/>
+    <circle cx="1742" cy="402" r="1.4" fill="#ecd2a0"/>
+    <circle cx="938" cy="344" r="1.7" fill="#e8ca8e"/>
+  </g>
+
+  <!-- Fine frame lines -->
+  <g fill="none" stroke="#e6d1a0" stroke-opacity="0.11">
+    <rect x="44" y="44" width="1832" height="992" rx="4"/>
+    <path d="M44 94V44h50M1826 44h50v50M1876 986v50h-50M94 1036H44v-50"/>
+  </g>
+
+  <rect width="1920" height="1080" fill="url(#vignette)"/>
+  <rect width="1920" height="1080" filter="url(#grain)" opacity="0.55"/>
+</svg>

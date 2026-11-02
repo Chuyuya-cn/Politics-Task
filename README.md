@@ -122,6 +122,13 @@ node test/dom-e2e.mjs         # jsdom 中的完整 UI 流程
 
 浏览器端测试需 Chrome CDP（见各脚本头注释）：`e2e.mjs`、`request-audit.mjs`、`mobile-e2e.mjs`、`standalone-e2e.mjs`、`standalone-flow.mjs`、`ios-blocked-e2e.mjs`、`static-e2e.mjs`。
 
+文档自检脚本：
+
+```bash
+node scripts/check-links.mjs          # 检查所有 Markdown 的相对链接是否指向已跟踪文件
+python scripts/make-readme-shots.py   # 重新生成 docs/ 下的 README 配图（需 Pillow）
+```
+
 | 测试 | 结果 |
 |---|---|
 | `unit.mjs` | 17/17 |

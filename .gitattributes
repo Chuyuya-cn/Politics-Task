@@ -1,0 +1,28 @@
+# 统一换行符：仓库内一律 LF，避免 Windows/Linux 混用产生无意义 diff。
+* text=auto eol=lf
+
+# 明确为二进制，Git 不要尝试转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.zip binary
+*.exe binary
+*.woff2 binary
+
+# 脚本在 Windows 上也需要 CRLF 可执行时，单独放行
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 文档与源码用 LF
+*.go text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

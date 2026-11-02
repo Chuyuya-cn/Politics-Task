@@ -35,6 +35,11 @@ release-single/
 source-package/
 dist/
 web/政问-单文件版.html
+.release-assets/
+.release-bin/
+.release-notes.md
+.stage-*/
+.verify-*
 
 # ===== 大文件与截图 =====
 screenshots/

@@ -6,8 +6,13 @@
 // still needs a human/browser check because jsdom has no CSS engine.
 //
 // Run: node test/dom-e2e.mjs
-import { JSDOM } from '../.tools/node_modules/jsdom/lib/api.js';
+//
+// jsdom is a dev-only dependency: locally it may live in .tools/ (gitignored),
+// in CI it comes from `npm install jsdom`. test/_jsdom.mjs resolves either.
+import { loadJSDOM } from './_jsdom.mjs';
 import path from 'node:path';
+
+const JSDOM = await loadJSDOM();
 
 const APP = process.env.APP_BASE || 'http://127.0.0.1:5199';
 const nativeFetch = globalThis.fetch.bind(globalThis);

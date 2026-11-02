@@ -1,6 +1,12 @@
 // Unit tests for front-end pure logic using jsdom. Run: node test/unit.mjs
-import { JSDOM } from '../.tools/node_modules/jsdom/lib/api.js';
+//
+// jsdom is a dev-only dependency. Locally it may live in .tools/ (gitignored);
+// in CI it comes from a normal `npm install jsdom`. test/_jsdom.mjs resolves
+// whichever one is present.
+import { loadJSDOM } from './_jsdom.mjs';
 import assert from 'node:assert/strict';
+
+const JSDOM = await loadJSDOM();
 
 const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'http://127.0.0.1:5199/' });
 globalThis.window = dom.window;

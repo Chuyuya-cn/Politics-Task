@@ -79,6 +79,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: 安装测试依赖
+        run: npm install --no-fund --no-audit --no-save jsdom
+
       - name: 前端单元测试
         run: node test/unit.mjs
 
@@ -93,8 +96,12 @@ jobs:
           test -f web/政问-单文件版.html
           test -f dist/index.html
           test -f dist/content.json
+          test -f dist/prompts/01-课程讲解.txt
           echo "single-file: $(du -h web/政问-单文件版.html | cut -f1)"
           echo "dist files: $(find dist -type f | wc -l)"
+
+      - name: 文档链接自检
+        run: node scripts/check-links.mjs
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
